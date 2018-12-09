@@ -1,0 +1,96 @@
+
+
+  
+ <!--<div class="container" ng-app="formvalid">
+      <div class="panel">
+  <div class="panel-heading border">   
+    <ng2-smart-table mode='external'
+    [settings]="settings" 
+    [source]="tasks"  edit="onSaveConfirm($event)"
+    > 
+</ng2-smart-table>-->
+
+
+<!--DYNAMICALLY POPULATE SELECT ELEMENT USING JSON HEADERS-->
+
+<!--<select ng-model="columns" ng-options="e for e in headers">
+    <option value=""></option>
+</select>-->
+
+<!--BIND THE SEARCH BOX TO THE SELECT ELEMENT-->
+Task Name 
+
+    <input [(ngModel)]="searchText" placeholder="search text goes here">
+    Parent Task
+
+    <input [(ngModel)]="searchParent" placeholder="search text goes here">   
+    Priority 
+
+    <input [(ngModel)]="searchPriority" placeholder="search text goes here">
+
+    Start Date
+
+    <input [(ngModel)]="searchStart" placeholder="search text goes here">
+
+    End Date 
+
+    <input [(ngModel)]="searchEnd" placeholder="search text goes here">
+<table st-table="tasks" class="table table-striped">
+	<thead>
+	<tr>
+    <th stSort="taskName" st-toggle-column>Task</th>
+    <th stSort="parent_task_id" st-toggle-column>Parent Task</th>
+    <th stSort="priority" st-toggle-column>Priority</th>
+    <th stSort="start_date" st-toggle-column>Start Date</th>
+    <th stSort="end_date" st-toggle-column>End Date</th>
+    <th> </th>
+    
+  </tr>
+  <!--<tr>
+      <th colspan="7">
+          <input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+        </th>
+	</tr>-->
+
+
+	</thead>
+	<tbody>
+    <tr *ngFor="let task of tasks | filter : searchText | filterParent : searchParent | filterPrior : searchPriority
+    | filterStart : searchStart | filterEnd : searchEnd">
+      <td st-toggle-item> {{ task.taskName }} </td>
+      <td st-toggle-item> {{ task.parent_task_id }} </td> 
+      <td st-toggle-item> {{ task.priority }} </td>
+      <td st-toggle-item>  {{ task.start_date }}  </td>
+      <td st-toggle-item> {{ task.end_date }} </td>
+      <td>
+      
+
+        <!-- edit Task button --><a [routerLink] ="['taskView/',task.taskName]" class='btn btn-info m-r-5px'>
+          <span class='glyphicon glyphicon-edit'></span> Edit</a>
+      <!--  <a (click)="updateTask(task.taskName)" class='btn btn-info m-r-5px'>
+            <span class='glyphicon glyphicon-edit'></span> Edit
+        </a>-->
+
+        <!-- delete Task button -->
+
+        <a [routerLink] ="['taskDelete/',task.taskName]" class='btn btn-info m-r-5px'>
+          <span class='glyphicon glyphicon-remove'></span> End Task</a>
+      <!--  <a (click)="deleteTask(task.taskName)" class='btn btn-danger m-r-5px'>
+            <span class='glyphicon glyphicon-remove'></span> End Task
+        </a>-->
+    </td>
+  </tr>
+	</tbody>
+</table>
+
+  
+<script>
+onSaveConfirm(event){
+  if (window.confirm('Are you sure you want to save?')) {
+   // event.newData['name'] += ' + added in code';
+   // event.confirm.resolve(event.newData);
+  } else {
+    event.confirm.reject();
+  }
+}
+</script>

@@ -1,0 +1,108 @@
+
+
+<!-- HTML form for creating a product -->
+<div class="row">
+<div class="col-md-12">
+
+<!--
+  1. Bind our HTML form to Angular using [formGroup]
+  2. If form was submitted, call createProduct() method of CreateProductComponent
+-->
+<form [formGroup]="update_task_form" (ngSubmit)="updateTask()">
+    <div *ngIf="vaildMessage != ''">
+        <h3 class="has-info">{{vaildMessage}}</h3>
+        </div>
+<table class="table table-hover table-responsive table-bordered">
+  <tr>
+      <td>Task Name</td>
+      <td>
+          <!-- Bind this input field to our 'angular form field' using formControlName -->
+          <input formControlName="taskName"
+              name="taskName" type="text"
+              class="form-control" required readonly/>
+
+          <!-- show this error if the field is 'empty' and 'touched' -->
+          <div
+              *ngIf="update_task_form.get('taskName').touched && update_task_form.get('taskName').hasError('required')"
+              class="alert alert-danger">
+             Task Name is required.
+          </div>
+      </td>
+  </tr>
+
+  <tr>
+      <td>Priority</td>
+      <td>
+            <input type="range" class="slider" formControlName="priority" min="0" max="30" value="50" style="width:50%;"
+            name="priority"  class="form-control" required>
+          
+          <!-- show this error if the field is 'empty' and 'touched' -->
+          <div
+              *ngIf="update_task_form.get('priority').touched && update_task_form.get('priority').hasError('required')"
+              class="alert alert-danger">
+              Priority is required.
+          </div>
+      </td>
+  </tr>
+
+  <tr>
+      <td>Parent Task</td>
+      <td>
+            <input
+            formControlName="parent_task_id"
+            name="parent_task_id" type="text"
+            class="form-control" required />
+
+              <!-- show this error if the field is 'empty' and 'touched' -->
+              <div
+                  *ngIf="update_task_form.get('parent_task_id').touched && update_task_form.get('parent_task_id').hasError('required')"
+                  class="alert alert-danger">
+                  Parent Task id is required.
+              </div>
+      </td>
+  </tr>
+
+  <tr>
+      <td>Start Date</td>
+      <td>
+            <input
+            formControlName="start_date"
+            name="start_date" type="text"
+            class="form-control" required />
+          <!-- show this error if the field is 'empty' and 'touched' -->
+          <div
+              *ngIf="update_task_form.get('start_date').touched && update_task_form.get('start_date').hasError('required')"
+              class="alert alert-danger">
+              Start Date is required.
+          </div>
+      </td>
+  </tr>
+  <tr>
+        <td>End Date</td>
+        <td>
+              <input
+              formControlName="end_date"
+              name="end_date" type="text"
+              class="form-control" required />
+            <!-- show this error if the field is 'empty' and 'touched' -->
+            <div
+                *ngIf="update_task_form.get('end_date').touched && update_task_form.get('end_date').hasError('required')"
+                class="alert alert-danger">
+                End Date is required.
+            </div>
+        </td>
+    </tr>
+  <tr>
+      <td></td>
+      <td>
+          <!-- disable the submit button if the form is 'invalid' -->
+          <button class="btn btn-primary" type="submit" [disabled]="update_task_form.invalid">
+              <span class="glyphicon glyphicon-plus"></span> Update Task
+          </button>
+      </td>
+  </tr>
+</table>
+</form>
+
+</div>
+</div>
