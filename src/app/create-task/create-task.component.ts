@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable} from 'rxjs';
 import { APIService } from  '../api.service';
 import { Task } from '../task';
+import { User } from '../user'; 
+import { Project } from '../project';
 
 @Component({
   selector: 'app-create-task',
@@ -16,6 +18,8 @@ export class CreateTaskComponent implements OnInit {
 
   private  tasks:  Array<Task> = [];
   vaildMessage : string = "";
+  private  users:  Array<User> = [];
+  private projects: Array<Project>=[];
 
   constructor(private  apiService:  APIService, formBuilder: FormBuilder) { 
    
@@ -24,11 +28,17 @@ export class CreateTaskComponent implements OnInit {
       priority: ["", Validators.required],
       parent_task_id: ["", Validators.required],
       start_date: ["", Validators.required],
-      end_date:["", Validators.required]
+      end_date:["", Validators.required],
+      project_id:["", Validators.required],
+      userId:["", Validators.required],
+      searchUserName: "",
+      searchProjectName: ""
     });
   }
 
   ngOnInit() {
+    this.getProjects();
+    this.getUsers();
   }
 
   createTask(){
@@ -54,6 +64,46 @@ public getTasks(){
     alert("Data "+data);
     console.log(data);
 });
+}
+public getUsers(){
+  this.apiService.getUsers().subscribe((data:  Array<User>) => {
+    this.users  =  data;
+  //  this.headers=Object.keys(data[0] );
+   // alert("Data "+data);
+    console.log(data);
+   // console.log(this.headers);
+});
+}
+public getProjects(){
+  this.apiService.getProjects().subscribe((data:  Array<Project>) => {
+    this.projects  =  data;
+  //  this.headers=Object.keys(data[0] );
+   // alert("Data "+data);
+    console.log(data);
+   // console.log(this.headers);
+});
+}
+
+populateTaskOwnerId(userId){
+  alert("in view populateTaskOwnerId"+userId);
+ console.log(this.create_task_form.value);
+ this.create_task_form.patchValue({
+        userId: userId
+});
+//this.closeModel();
+//$("#myModal").modal('hide'); 
+$("#myModal .close").click();
+}
+
+populateProjectId(project_id){
+  alert("in view populateProjectId"+project_id);
+ console.log(this.create_task_form.value);
+ this.create_task_form.patchValue({
+  project_id: project_id
+});
+//this.closeModel();
+//$("#myModal1").modal('hide'); 
+$("#myModal1 .close").click();
 }
 
 }

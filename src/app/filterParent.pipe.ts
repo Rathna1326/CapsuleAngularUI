@@ -25,6 +25,7 @@ return items.filter( it => {
     if(searchText == null) return categories;
 
     return categories.filter(function(category){
+     // alert("in parent filter"+category.parent_task_id+" "+ searchText);
       return (category.parent_task_id==searchText);
     })
   }

@@ -5,6 +5,8 @@ import {ActivatedRoute } from '@angular/router';
 import { Observable} from 'rxjs';
 import { APIService } from  '../api.service';
 import { Task } from '../task';
+import { User } from '../user'; 
+import { Project } from '../project';
 
 @Component({
   selector: 'app-update-task',
@@ -16,6 +18,10 @@ export class UpdateTaskComponent implements OnChanges  {
   update_task_form: FormGroup;
   //@Input() taskName;
   vaildMessage : string = "";
+  private  users:  Array<User> = [];
+  private projects: Array<Project>=[];
+
+
 
   constructor(private  apiService:  APIService, formBuilder: FormBuilder,private route:ActivatedRoute) {
     this.update_task_form = formBuilder.group({
@@ -23,7 +29,11 @@ export class UpdateTaskComponent implements OnChanges  {
       priority: ["", Validators.required],
       parent_task_id: ["", Validators.required],
       start_date: ["", Validators.required],
-      end_date:["", Validators.required]
+      end_date:["", Validators.required],
+      project_id:["", Validators.required],
+      userId:["", Validators.required],
+      searchProjectName:"",
+      searchUserName:""
     });
    }
 
@@ -46,7 +56,9 @@ export class UpdateTaskComponent implements OnChanges  {
    }
 
   ngOnInit() {
-    this.viewTask(this.route.snapshot.params.taskName)
+    this.viewTask(this.route.snapshot.params.taskName);
+    this.getUsers();
+    this.getProjects();
   }
 
   viewTask(taskName:string)
@@ -60,7 +72,9 @@ export class UpdateTaskComponent implements OnChanges  {
         priority: task.priority,
         parent_task_id: task.parent_task_id,
         start_date: task.start_date,
-        end_date: task.end_date
+        end_date: task.end_date,
+        project_id:task.project_id,
+        userId: task.userId
       });
   });
 
@@ -70,5 +84,44 @@ export class UpdateTaskComponent implements OnChanges  {
     // read one product record
     
 
+}
+
+public getUsers(){
+  this.apiService.getUsers().subscribe((data:  Array<User>) => {
+    this.users  =  data;
+  //  this.headers=Object.keys(data[0] );
+   // alert("Data "+data);
+    console.log(data);
+   // console.log(this.headers);
+});
+}
+public getProjects(){
+  this.apiService.getProjects().subscribe((data:  Array<Project>) => {
+    this.projects  =  data;
+  //  this.headers=Object.keys(data[0] );
+   // alert("Data "+data);
+    console.log(data);
+   // console.log(this.headers);
+});
+}
+
+populateTaskOwnerId(userId){
+  alert("in view populateTaskOwnerId"+userId);
+ console.log(this.update_task_form.value);
+ this.update_task_form.patchValue({
+        userId: userId
+});
+//this.closeModel();
+$("#myModal .close").click();
+}
+
+populateProjectId(project_id){
+  alert("in view populateProjectId"+project_id);
+ console.log(this.update_task_form.value);
+ this.update_task_form.patchValue({
+  project_id: project_id
+});
+//this.closeModel();
+$("#myModal1 .close").click();
 }
 }

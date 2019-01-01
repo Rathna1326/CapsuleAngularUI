@@ -25,7 +25,8 @@ return items.filter( it => {
     if(searchText == null) return categories;
 
     return categories.filter(function(category){
-      return (category.priority==searchText);
+      //alert("in prior filter"+category.priority+" "+ searchText);
+      return (category.priority==searchText); 
     })
   }
 }

@@ -4,5 +4,6 @@ export interface Task {
     priority;
     start_date;
     end_date;
-    
+    project_id;
+    userId;
 }
